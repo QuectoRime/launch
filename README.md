@@ -46,24 +46,22 @@
 | Where does the name *LAUNCH* come from? | It's a backronym - **L**ibrary of **A**bundant **U**tilities for **N**ew **C**reative **H**acks! |
 | How many modules are there? | Currently, there are 8 (LAUNCH itself) + 3 (LEISURE features). |
 | Well, what's *LEISURE*, then? | It's still a backronym - **L**ibrary of **E**xperimental **I**deas for **SURE**! |
-| What's your slogan? | "Build, LAUNCH, start creating. That simple." |
-
 
 <h2 id="part2">Part II: Building / Using</h2>
 
 ### Part II-1: Building
 
 This project uses CMake.  
-For details, please go to `CMakeLists.txt`.
+For details, please refer to `CMakeLists.txt`.
 
 ### Part II-2: Using
 
-Simply `#include "include/launch.h"`.  
-If you need more precise module controls, please `#define` macros in `include/launch_config.h`.  
+Simply write `#include "include/launch.h"`.  
+If you need more precise module control, please `#define` corresponding macros in `include/launch_config.h`.  
 The macros look like this:
 ```cpp
-LAUNCH_NO_<MODULENAME> // To disable a specific module.
-LAUNCH_EXPERIMENTAL // To enable LEISURE features.
+LAUNCH_NO_<MODULENAME> // disables a specific module
+LAUNCH_EXPERIMENTAL // enables LEISURE features
 ```
 
 <h2 id="part3">Part III: The Modules</h2>
@@ -167,7 +165,7 @@ You entered: <input0> & <input1>.
 ### \<goodmath\>, \<goodrand\> & \<goodstr\>
 
 - What do the names mean?  
-**-** They're just *the goods*. (Or technically, we use these names to prevent ambiguity.)
+**-** These names distinguish LAUNCH modules from STL.
 - What can they do?
 ```cpp
 std::string hint = "Sine value of ";
@@ -205,7 +203,7 @@ std::cout <<
     " " <<
     leisure::arint(0, leisure::arint_specval::nan) <<
     "\n";
-std::cout << "Ooh, rational: " << leisure::arreal(22, 7) << "\n";
+std::cout << "Ooh, rational: " << leisure::arrat(22, 7) << "\n";
 ```
 Expected output:
 ```

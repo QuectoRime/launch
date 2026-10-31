@@ -67,7 +67,7 @@ namespace std {
 	};
 
 	template <>
-	struct numeric_limits<leisure::arreal> {
+	struct numeric_limits<leisure::arrat> {
 		static constexpr bool is_specialized = true;
 		static constexpr bool is_signed = true;
 		static constexpr bool is_integer = false;
@@ -92,40 +92,40 @@ namespace std {
 		static constexpr bool traps = false;
 		static constexpr bool tinyness_before = false;
 
-		static constexpr leisure::arreal min() {
-			return leisure::arreal(1, numeric_limits<unsigned long long>::max());
+		static constexpr leisure::arrat min() {
+			return leisure::arrat(1, numeric_limits<unsigned long long>::max());
 		}
 
-		static constexpr leisure::arreal lowest() {
+		static constexpr leisure::arrat lowest() {
 			return leisure::arint(numeric_limits<unsigned long long>::max(), leisure::arint_specval::neg);
 		}
 
-		static constexpr leisure::arreal max() {
+		static constexpr leisure::arrat max() {
 			return leisure::arint(numeric_limits<unsigned long long>::max());
 		}
 
-		static constexpr leisure::arreal epsilon() {
+		static constexpr leisure::arrat epsilon() {
 			return min();
 		}
 
-		static constexpr leisure::arreal round_error() {
-			return leisure::arreal(0);
+		static constexpr leisure::arrat round_error() {
+			return leisure::arrat(0);
 		}
 
-		static constexpr leisure::arreal infinity() {
+		static constexpr leisure::arrat infinity() {
 			return leisure::arint(0, leisure::arint_specval::inf);
 		}
 
-		static constexpr leisure::arreal quiet_NaN() {
+		static constexpr leisure::arrat quiet_NaN() {
 			return leisure::arint(0, leisure::arint_specval::nan);
 		}
 
-		static constexpr leisure::arreal signaling_NaN() {
-			return leisure::arreal(0);
+		static constexpr leisure::arrat signaling_NaN() {
+			return leisure::arrat(0);
 		}
 
-		static constexpr leisure::arreal denorm_min() {
-			return leisure::arreal(0);
+		static constexpr leisure::arrat denorm_min() {
+			return leisure::arrat(0);
 		}
 	};
 }

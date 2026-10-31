@@ -43,7 +43,7 @@
 |signaling_NaN|0|
 |denorm_min|0|
 
-## `std::numeric_limits<arreal>`
+## `std::numeric_limits<arrat>`
 
 ### Member constants
 |Constant|Value|

@@ -21,7 +21,7 @@ namespace leisure {
 	constexpr arint_specval operator|(arint_specval lhs, arint_specval rhs);
 	constexpr arint_specval operator&(arint_specval lhs, arint_specval rhs);
 
-	class arreal;
+	class arrat;
 
 	class arint {
 	private:
@@ -31,7 +31,7 @@ namespace leisure {
 		bool inf;
 
 	public:
-		friend class arreal;
+		friend class arrat;
 
 		constexpr arint(unsigned long long _value = 0, arint_specval specval = arint_specval::nop) :
 			value(_value),
@@ -93,7 +93,7 @@ namespace leisure {
 
 	arint operator%(const arint& a, const arint& b);
 
-	class arreal {
+	class arrat {
 	private:
 		arint num;
 		arint den;
@@ -101,44 +101,44 @@ namespace leisure {
 		constexpr void adjust();
 
 	public:
-		constexpr arreal(const arint& _num = 0, const arint& _den = 1);
+		constexpr arrat(const arint& _num = 0, const arint& _den = 1);
 
-		arreal& operator+=(const arreal& other);
+		arrat& operator+=(const arrat& other);
 
-		arreal& operator-=(const arreal& other);
+		arrat& operator-=(const arrat& other);
 
-		arreal& operator*=(const arreal& other);
+		arrat& operator*=(const arrat& other);
 
-		arreal& operator/=(const arreal& other);
+		arrat& operator/=(const arrat& other);
 
-		arreal& operator%=(const arreal& other);
+		arrat& operator%=(const arrat& other);
 
-		arreal operator+() const;
+		arrat operator+() const;
 
-		arreal operator-() const;
+		arrat operator-() const;
 
-		friend std::partial_ordering operator<=>(const arreal& a, const arreal& b);
+		friend std::partial_ordering operator<=>(const arrat& a, const arrat& b);
 
-		friend bool operator==(const arreal& a, const arreal& b);
+		friend bool operator==(const arrat& a, const arrat& b);
 
-		friend std::ostream& operator<<(std::ostream& out, const arreal& val);
+		friend std::ostream& operator<<(std::ostream& out, const arrat& val);
 
-		friend std::istream& operator>>(std::istream& in, arreal& val);
+		friend std::istream& operator>>(std::istream& in, arrat& val);
 
-		friend arint numerator(const arreal& val);
+		friend arint numerator(const arrat& val);
 
-		friend arint denominator(const arreal& val);
+		friend arint denominator(const arrat& val);
 
-		friend std::string to_decimal(const arreal& val);
+		friend std::string to_decimal(const arrat& val);
 	};
 
-	arreal operator+(const arreal& a, const arreal& b);
+	arrat operator+(const arrat& a, const arrat& b);
 
-	arreal operator-(const arreal& a, const arreal& b);
+	arrat operator-(const arrat& a, const arrat& b);
 
-	arreal operator*(const arreal& a, const arreal& b);
+	arrat operator*(const arrat& a, const arrat& b);
 
-	arreal operator/(const arreal& a, const arreal& b);
+	arrat operator/(const arrat& a, const arrat& b);
 
-	arreal operator%(const arreal& a, const arreal& b);
+	arrat operator%(const arrat& a, const arrat& b);
 }

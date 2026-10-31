@@ -251,7 +251,7 @@ namespace leisure {
 		return val.inf;
 	}
 
-	constexpr void arreal::adjust() {
+	constexpr void arrat::adjust() {
 		if (num.sign && !den.sign) {
 			num.sign = false;
 			den.sign = true;
@@ -273,11 +273,11 @@ namespace leisure {
 		den.value /= nd_gcd;
 	}
 
-	constexpr arreal::arreal(const arint& _num, const arint& _den) : num(_num), den(_den) {
+	constexpr arrat::arrat(const arint& _num, const arint& _den) : num(_num), den(_den) {
 		adjust();
 	}
 
-	arreal& arreal::operator+=(const arreal& other) {
+	arrat& arrat::operator+=(const arrat& other) {
 		if (den == other.den) {
 			num += other.num;
 		}
@@ -290,25 +290,25 @@ namespace leisure {
 		return *this;
 	}
 
-	arreal& arreal::operator-=(const arreal& other) {
+	arrat& arrat::operator-=(const arrat& other) {
 		*this += -other;
 		return *this;
 	}
 
-	arreal& arreal::operator*=(const arreal& other) {
+	arrat& arrat::operator*=(const arrat& other) {
 		num *= other.num;
 		den *= other.den;
 		adjust();
 		return *this;
 	}
 
-	arreal& arreal::operator/=(const arreal& other) {
-		arreal temp(other.den, other.num);
+	arrat& arrat::operator/=(const arrat& other) {
+		arrat temp(other.den, other.num);
 		*this *= temp;
 		return *this;
 	}
 
-	arreal& arreal::operator%=(const arreal& other) {
+	arrat& arrat::operator%=(const arrat& other) {
 		if (den == other.den) {
 			num %= other.num;
 		}
@@ -321,45 +321,45 @@ namespace leisure {
 		return *this;
 	}
 
-	arreal operator+(const arreal& a, const arreal& b) {
-		arreal temp = a;
+	arrat operator+(const arrat& a, const arrat& b) {
+		arrat temp = a;
 		temp += b;
 		return temp;
 	}
 
-	arreal operator-(const arreal& a, const arreal& b) {
-		arreal temp = a;
+	arrat operator-(const arrat& a, const arrat& b) {
+		arrat temp = a;
 		temp -= b;
 		return temp;
 	}
 
-	arreal operator*(const arreal& a, const arreal& b) {
-		arreal temp = a;
+	arrat operator*(const arrat& a, const arrat& b) {
+		arrat temp = a;
 		temp *= b;
 		return temp;
 	}
 
-	arreal operator/(const arreal& a, const arreal& b) {
-		arreal temp = a;
+	arrat operator/(const arrat& a, const arrat& b) {
+		arrat temp = a;
 		temp /= b;
 		return temp;
 	}
 
-	arreal operator%(const arreal& a, const arreal& b) {
-		arreal temp = a;
+	arrat operator%(const arrat& a, const arrat& b) {
+		arrat temp = a;
 		temp %= b;
 		return temp;
 	}
 
-	arreal arreal::operator+() const {
+	arrat arrat::operator+() const {
 		return *this;
 	}
 
-	arreal arreal::operator-() const {
-		return arreal(-num, den);
+	arrat arrat::operator-() const {
+		return arrat(-num, den);
 	}
 
-	std::partial_ordering operator<=>(const arreal& a, const arreal& b) {
+	std::partial_ordering operator<=>(const arrat& a, const arrat& b) {
 		unsigned long long
 			a_den_value = abs(a.den),
 			b_den_value = abs(b.den),
@@ -367,11 +367,11 @@ namespace leisure {
 		return a.num * (den_lcm / a_den_value) <=> b.num * (den_lcm / b_den_value);
 	}
 
-	bool operator==(const arreal& a, const arreal& b) {
+	bool operator==(const arrat& a, const arrat& b) {
 		return a <=> b == 0;
 	}
 
-	std::ostream& operator<<(std::ostream& out, const arreal& val) {
+	std::ostream& operator<<(std::ostream& out, const arrat& val) {
 		out << val.num;
 		if (val.den != 1) {
 			out << "/" << val.den;
@@ -379,7 +379,7 @@ namespace leisure {
 		return out;
 	}
 
-	std::istream& operator>>(std::istream& in, arreal& val) {
+	std::istream& operator>>(std::istream& in, arrat& val) {
 		std::string s_value;
 		in >> s_value;
 		unsigned long long pos = s_value.find('/');
@@ -391,19 +391,19 @@ namespace leisure {
 			std::stringstream ss_den(s_value.substr(pos + 1));
 			ss_den >> temp_den;
 		}
-		val = arreal(temp_num, temp_den);
+		val = arrat(temp_num, temp_den);
 		return in;
 	}
 
-	arint numerator(const arreal& val) {
+	arint numerator(const arrat& val) {
 		return val.num;
 	}
 
-	arint denominator(const arreal& val) {
+	arint denominator(const arrat& val) {
 		return val.den;
 	}
 
-	std::string to_decimal(const arreal& val) {
+	std::string to_decimal(const arrat& val) {
 		if (nan(val.num)) {
 			return "NaN";
 		}

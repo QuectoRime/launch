@@ -166,13 +166,13 @@ int main(int argc, char* argv[]) {
 			++cnt;
 			fmtout("=== START OF TEST - ARITHING ===\n");
 			hedgehog cont;
-			arreal lhs, rhs, res;
+			arrat lhs, rhs, res;
 			char op;
 			fmtout("Enter a math expression please (e.g. 1 + 2, -1/2 * 3/4): ");
 			fmtin(pack(lhs, op, rhs));
-			lhs = cont[0].as<arreal>();
+			lhs = cont[0].as<arrat>();
 			op = cont[1].as<char>();
-			rhs = cont[2].as<arreal>();
+			rhs = cont[2].as<arrat>();
 			switch (op) {
 			case '+':
 				res = lhs + rhs;
