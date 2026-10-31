@@ -25,7 +25,7 @@ long long hedgehog_test0() {
 	std::string fmt = "[ ]";
 	stopwatch watch;
 	watch.start();
-	fmtout(fmt, cont, false, nullout);
+	fmtout(fmt, cont, nullout);
 	watch.stop();
 	return watch.get_dur().microseconds();
 }
@@ -136,7 +136,7 @@ int main(int argc, char* argv[]) {
 			fmtout("=== START OF TEST - GOODMATH ===\n");
 			double deg;
 			fmtout("Enter an angle (in degrees) please: ");
-			fmtin_single(deg);
+			fmtin(deg);
 			double rad = dtor(deg);
 			double cos_ = ::launch::cos(rad);
 			double sin_ = ::launch::sin(rad);
@@ -169,7 +169,7 @@ int main(int argc, char* argv[]) {
 			arreal lhs, rhs, res;
 			char op;
 			fmtout("Enter a math expression please (e.g. 1 + 2, -1/2 * 3/4): ");
-			fmtin<arreal, char, arreal>(cont);
+			fmtin(pack(lhs, op, rhs));
 			lhs = cont[0].as<arreal>();
 			op = cont[1].as<char>();
 			rhs = cont[2].as<arreal>();
@@ -207,7 +207,7 @@ int main(int argc, char* argv[]) {
 			hedgehog cont;
 			std::string fmt = "----------------------------------------\nYou entered:\n";
 			fmtout("How many elements you're about to enter? ");
-			fmtin_single(cnt);
+			fmtin(cnt);
 			fmtout("----------------------------------------\nPlese enter {} element(s):\n", { cnt });
 			fmtin_deduce_auto(cont, cnt);
 			size_t cont_size = cont.size();
@@ -223,9 +223,9 @@ int main(int argc, char* argv[]) {
 			fmtout("=== START OF TEST - GENEV ===\n");
 			genev mass, accel;
 			fmtout("Mass: ");
-			fmtin_single(mass);
+			fmtin(mass);
 			fmtout("Acceleration: ");
-			fmtin_single(accel);
+			fmtin(accel);
 			fmtout("F = ma = {} * {} = {}\n", { mass, accel, mass * accel });
 			fmtout("=== END OF TEST - GENEV ===\n");
 		}

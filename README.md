@@ -151,11 +151,11 @@ std::cout << launch::gen_style(launch::escseq_style::italic | launch::escseq_sty
 **-** You see, hedgehogs' spines don't care what they're carrying - that's what `hedgehog` does!
 - What can they do?
 ```cpp
-launch::hedgehog hh1 = { 42, 3.14, true, "Hello World!", 'A' };
-launch::hedgehog hh2;
-launch::fmtout("int: {}, double: {}, bool: {}, string: {}, char: {}\n", hh1);
-launch::fmtin<int, double>(hh2);
-launch::fmtout("You entered: {} & {}.\n", hh2);
+launch::fmtout("int: {}, double: {}, bool: {}, string: {}, char: {}\n", { 42, 3.14, true, "Hello World!", 'A' });
+int a;
+double b;
+launch::fmtin(launch::pack(a, b));
+launch::fmtout("You entered: {} & {}.\n", { a, b });
 ```
 - Expected output:
 ```
@@ -256,7 +256,7 @@ Why not use LAUNCH?
 
 ---
 
-<small>Author: Arcsin Studios<br>License (of this document): CC BY-SA 4.0</small>
+<small>Author: QuectoRime Studios<br>License (of this document): CC BY-SA 4.0</small>
 
 <style>
 @keyframes splash {

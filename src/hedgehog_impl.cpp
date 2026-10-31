@@ -11,6 +11,10 @@ namespace launch {
 		output_reg[key] = func;
 	}
 
+	void hedgehog_registry::regtype_input(std::type_index key, input_func_t func) {
+		input_reg[key] = func;
+	}
+
 	void hedgehog_registry::regtype_oper(hedgehog_opersign key, oper_func_t func) {
 		oper_reg[key] = func;
 	}
@@ -24,11 +28,19 @@ namespace launch {
 				bool, char,
 				const char*, std::string
 			>();
+			regtype_input_helper<
+				signed char, short, int, long long,
+				unsigned char, unsigned short, unsigned int, unsigned long long,
+				float, double,
+				bool, char,
+				std::string
+			>();
 #if !defined(LAUNCH_NO_ESCSEQ)
 			regtype_helper<escseq_manip, style_manip, reset_endl>();
 #endif
 #if defined(LAUNCH_EXPERIMENTAL)
 			regtype_helper<leisure::arint, leisure::arreal, leisure::genev>();
+			regtype_input_helper<leisure::arint, leisure::arreal, leisure::genev>();
 #endif
 		}
 	}
@@ -37,12 +49,20 @@ namespace launch {
 		return output_reg.find(key);
 	}
 
+	input_reg_t::const_iterator hedgehog_registry::input_func_it(std::type_index key) const {
+		return input_reg.find(key);
+	}
+
 	oper_reg_t::const_iterator hedgehog_registry::oper_func_it(hedgehog_opersign key) const {
 		return oper_reg.find(key);
 	}
 	
 	output_reg_t::const_iterator hedgehog_registry::output_reg_end() const {
 		return output_reg.end();
+	}
+
+	input_reg_t::const_iterator hedgehog_registry::input_reg_end() const {
+		return input_reg.end();
 	}
 
 	oper_reg_t::const_iterator hedgehog_registry::oper_reg_end() const {
@@ -201,5 +221,28 @@ namespace launch {
 			type.name() +
 			")"
 		);
+	}
+
+	std::istream& operator>>(std::istream& in, const hedgehog_elemproxy& proxy) {
+		const std::any& proxy_value = proxy.value_;
+		if (!proxy_value.has_value()) {
+			throw std::runtime_error("operator>>(std::istream&, hedgehog_elemproxy&): proxy_value.has_value() == false");
+		}
+		const std::type_info& type = proxy_value.type();
+		input_reg_t::const_iterator func_it = proxy.registry->input_func_it(type);
+		if (func_it != proxy.registry->input_reg_end()) {
+			return (func_it->second)(in, proxy_value);
+		}
+		throw std::runtime_error(
+			std::string("operator>>(std::istream&, hedgehog_elemproxy&): unknown type (mangled name: ") +
+			type.name() +
+			")"
+		);
+	}
+
+	void rebind_all(hedgehog& cont, hedgehog_registry& new_reg) {
+		for (hedgehog_elemproxy& elem : cont) {
+			elem.rebind(new_reg);
+		}
 	}
 }

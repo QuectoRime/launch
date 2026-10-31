@@ -58,10 +58,6 @@ Feel free to submit PRs. However, please always remember the following points:
 
 `SCREAMING_SNAKE_CASE`.
 
-#### Concepts & Template Parameters
-
-`PascalCase`.
-
 ### Indentations & Formatting
 
 #### Indentations
@@ -85,4 +81,4 @@ Use `template <typename T>` instead of `template <class T>`, even though they're
 
 ---
 
-<small>Author: Arcsin Studios<br>License (of this document): CC BY-SA 4.0</small>
+<small>Author: QuectoRime Studios<br>License (of this document): CC BY-SA 4.0</small>

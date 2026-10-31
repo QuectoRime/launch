@@ -1,7 +1,7 @@
 # `fmtout`
 <small>Defined in `fmtio_impl.h`</small>
 
-## `void fmtout(const std::string& fmt, const hedgehog& cont = {}, bool raw = false, std::ostream& out = std::cout);`
+## `void fmtout(const std::string& fmt, const hedgehog& cont = {}, std::ostream& out = std::cout);`
 Formats `cont` according to the format string `fmt`, and writes the result to `out`.
 
 ### Parameters
@@ -17,12 +17,10 @@ Represents a single element in `cont`.
 The *`elem-id`* s in a format string must all be present or all be omitted. Mixing manual and automatic indexing is an error.  
 <code>[ *separator* ]</code>  
 Represents all elements in `cont`.  
-*`separator`* - specifies the separator between elements in `cont`. Placeholders and escape sequences are also applicable to *`separator`*.  
-Mixing brackets and braces is an error. Using multiple pairs of brackets is also an error.
+*`separator`* - specifies the separator between elements in `cont`. Placeholders and escape sequences are also applicable to *`separator`*.
 
-**`cont`** - the `hedgehog` which contains the elements to be formatted.  
-**`raw`** - indicates if `fmt` will be written as-is.  
-**`out`** - the output stream to be written to.
+**`cont`** - the `hedgehog` with elements to be formatted.  
+**`out`** - the output stream to be written.
 
 ### Return value
 (none)

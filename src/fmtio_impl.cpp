@@ -3,9 +3,17 @@
 #include "../include/fmtio_impl.h"
 
 namespace launch {
+	void fmtout_raw(const std::string& fmt, std::ostream& out) {
+		out << fmt;
+	}
+
+	void fmtin_line(std::string& str, std::istream& in) {
+		std::getline(in >> std::ws, str);
+	}
+
 #if !defined(LAUNCH_NO_HEDGEHOG)
-	void fmtout(const std::string& fmt, const hedgehog& cont, bool raw, std::ostream& out) {
-		if (raw || fmt.find_first_of("{}[]|") == std::string::npos) {
+	void fmtout(const std::string& fmt, const hedgehog& cont, std::ostream& out) {
+		if (fmt.find_first_of("{}[]|") == std::string::npos) {
 			out << fmt;
 			return;
 		}
@@ -13,9 +21,9 @@ namespace launch {
 		ss.flags(out.flags());
 		size_t fmt_length = fmt.length();
 		size_t cont_size = cont.size();
+		bool manual_indexing = false;
 		bool auto_indexing = false;
 		size_t curr_index = 0;
-		bool brackets = false;
 		for (size_t i = 0; i < fmt_length; ++i) {
 			switch (fmt[i]) {
 			case '{':
@@ -27,22 +35,15 @@ namespace launch {
 					ss << '{';
 					break;
 				}
-				if (brackets) {
-					throw std::format_error("fmtout: unexpected { at index " + std::to_string(i));
-				}
 				++i;
 				{
 					size_t index;
 					if (fmt[i] == '}') {
-						if (!curr_index) {
-							auto_indexing = true;
-						}
-						if (auto_indexing) {
-							index = curr_index++;
-						}
-						else {
+						if (manual_indexing) {
 							throw std::format_error("fmtout: unexpected } at index " + std::to_string(i));
 						}
+						auto_indexing = true;
+						index = curr_index++;
 					}
 					else {
 						if (auto_indexing) {
@@ -53,6 +54,7 @@ namespace launch {
 								std::to_string(i)
 							);
 						}
+						manual_indexing = true;
 						std::string index_str;
 						for (; fmt[i] != '}'; ++i) {
 							if (i + 1 == fmt_length) {
@@ -69,15 +71,15 @@ namespace launch {
 							index_str += fmt[i];
 						}
 						index = std::stoull(index_str);
-						if (index >= cont_size) {
-							throw std::format_error(
-								"fmtout: index (which is " +
-								index_str +
-								") >= cont.size() (which is " +
-								std::to_string(cont_size) +
-								")"
-							);
-						}
+					}
+					if (index >= cont_size) {
+						throw std::format_error(
+							"fmtout: index (which is " +
+							std::to_string(index) +
+							") >= cont.size() (which is " +
+							std::to_string(cont_size) +
+							")"
+						);
 					}
 					ss << cont[index];
 				}
@@ -98,10 +100,6 @@ namespace launch {
 					ss << '[';
 					break;
 				}
-				if (brackets) {
-					throw std::format_error("fmtout: unexpected [ at index " + std::to_string(i));
-				}
-				brackets = true;
 				++i;
 				{
 					std::string sep;
@@ -122,6 +120,20 @@ namespace launch {
 								++i;
 								sep += ']';
 							}
+							break;
+						case '{':
+							if (fmt[i + 1] != '{') {
+								throw std::format_error("fmtout: unexpected { at index " + std::to_string(i));
+							}
+							++i;
+							sep += '{';
+							break;
+						case '}':
+							if (fmt[i + 1] != '}') {
+								throw std::format_error("fmtout: unexpected } at index " + std::to_string(i));
+							}
+							++i;
+							sep += '}';
 							break;
 						case '|':
 							if (i + 1 != fmt_length && fmt[i + 1] == '|') {
@@ -158,11 +170,13 @@ namespace launch {
 				ss << fmt[i];
 			}
 		}
-		out << ss.str();
+		out << ss.rdbuf();
+	}
+
+	void fmtin(const hedgehog& cont, std::istream& in) {
+		for (const hedgehog_elemproxy& elem : cont) {
+			in >> elem;
+		}
 	}
 #endif
-
-	void fmtin_line(std::string& str, std::istream& in) {
-		std::getline(in >> std::ws, str);
-	}
 }

@@ -10,6 +10,11 @@ namespace launch {
 	};
 
 	template <typename T>
+	concept readable = requires(std::istream & in, T & x) {
+		{ in >> x } -> std::same_as<std::istream&>;
+	};
+
+	template <typename T>
 	concept arithmetic_preq = !(std::is_pointer_v<T> || std::is_same_v<bool, T> || std::is_same_v<char, T>);
 
 	template <typename T, typename U>

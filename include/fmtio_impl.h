@@ -10,29 +10,26 @@
 #include "hedgehog.h"
 #endif
 
-#include "fmtio_concepts.h"
-
 namespace launch {
-#if !defined(LAUNCH_NO_HEDGEHOG)
-	void fmtout(const std::string& fmt, const hedgehog& cont = {}, bool raw = false, std::ostream& out = std::cout);
+	void fmtout_raw(const std::string& fmt, std::ostream& out = std::cout);
 
-	template <readable T>
-	void fmtin_process(hedgehog& cont, std::istream& in) {
-		T temp;
-		in >> temp;
-		cont.push_back(temp);
-	}
+	void fmtin_line(std::string& str, std::istream& in = std::cin);
+
+#if !defined(LAUNCH_NO_HEDGEHOG)
+	void fmtout(const std::string& fmt, const hedgehog& cont = {}, std::ostream& out = std::cout);
 
 	template <readable... Ts>
-	void fmtin(hedgehog& cont, std::istream& in = std::cin) {
-		(fmtin_process<Ts>(cont, in), ...);
+	hedgehog pack(Ts&... args) {
+		hedgehog cont;
+		(cont.push_back(std::ref(args)), ...);
+		return cont;
 	}
 
+	void fmtin(const hedgehog& cont, std::istream& in = std::cin);
+
 	template <readable T>
-	void fmtin_single(T& x, std::istream& in = std::cin) {
+	void fmtin(T& x, std::istream& in = std::cin) {
 		in >> x;
 	}
 #endif
-
-	void fmtin_line(std::string& str, std::istream& in = std::cin);
 }

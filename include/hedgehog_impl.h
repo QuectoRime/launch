@@ -54,17 +54,22 @@ namespace std {
 
 namespace launch {
 	using output_func_t = std::function<std::ostream&(std::ostream&, const std::any&)>;
+	using input_func_t = std::function<std::istream&(std::istream&, const std::any&)>;
 	using oper_func_t = std::function<std::any(const std::any&, const std::any&)>;
 	using output_reg_t = std::unordered_map<std::type_index, output_func_t>;
+	using input_reg_t = std::unordered_map<std::type_index, input_func_t>;
 	using oper_reg_t = std::unordered_map<hedgehog_opersign, oper_func_t>;
 
 	class hedgehog_registry {
 	private:
 		output_reg_t output_reg;
+		input_reg_t input_reg;
 		oper_reg_t oper_reg;
 
 	public:
 		void regtype_output(std::type_index key, output_func_t func);
+
+		void regtype_input(std::type_index key, input_func_t func);
 
 		void regtype_oper(hedgehog_opersign key, oper_func_t func);
 
@@ -97,6 +102,13 @@ namespace launch {
 		void regtype_output_auto() {
 			regtype_output(typeid(T), [](std::ostream& out, const std::any& value_) -> std::ostream& {
 				return out << std::any_cast<T>(value_);
+			});
+		}
+
+		template <readable T>
+		void regtype_input_auto() {
+			regtype_input(typeid(std::reference_wrapper<T>), [](std::istream& in, const std::any& value_) -> std::istream& {
+				return in >> std::any_cast<std::reference_wrapper<T>>(value_).get();
 			});
 		}
 
@@ -203,6 +215,11 @@ namespace launch {
 			regtype_mod_auto_rev<T, U>();
 		}
 
+		template <typename... Ts>
+		void regtype_input_helper() {
+			(regtype_input_auto<Ts>(), ...);
+		}
+
 		template <typename T, typename U>
 		void regtype_helper_process() {
 			if constexpr (arithmetic_add<T, U>) {
@@ -253,9 +270,13 @@ namespace launch {
 
 		output_reg_t::const_iterator output_func_it(std::type_index key) const;
 
+		input_reg_t::const_iterator input_func_it(std::type_index key) const;
+
 		oper_reg_t::const_iterator oper_func_it(hedgehog_opersign key) const;
 
 		output_reg_t::const_iterator output_reg_end() const;
+
+		input_reg_t::const_iterator input_reg_end() const;
 
 		oper_reg_t::const_iterator oper_reg_end() const;
 	};
@@ -290,6 +311,8 @@ namespace launch {
 		hedgehog_elemproxy operator--(int);
 
 		friend std::ostream& operator<<(std::ostream& out, const hedgehog_elemproxy& proxy);
+
+		friend std::istream& operator>>(std::istream& in, const hedgehog_elemproxy& proxy);
 
 		template <typename T>
 		T as() const {
@@ -359,15 +382,7 @@ namespace launch {
 		return temp;
 	}
 
-	template <typename T>
-	using hedgehog_impl = std::vector<hedgehog_elemproxy, T>;
+	using hedgehog = std::vector<hedgehog_elemproxy>;
 
-	using hedgehog = hedgehog_impl<std::allocator<hedgehog_elemproxy>>;
-
-	template <typename T>
-	void rebind_all(hedgehog_impl<T>& cont, hedgehog_registry& new_reg) {
-		for (hedgehog_elemproxy& elem : cont) {
-			elem.rebind(new_reg);
-		}
-	}
+	void rebind_all(hedgehog& cont, hedgehog_registry& new_reg);
 }

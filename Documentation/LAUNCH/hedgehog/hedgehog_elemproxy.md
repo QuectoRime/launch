@@ -12,18 +12,23 @@
 |`operator+=`<br>`operator-=`<br>`operator*=`<br>`operator/=`<br>`operator%=`|compound assignments of two `hedgehog_elemproxy`s<br><small>(public member functions)</small>|
 |`operator++`<br>`operator++(int)`<br>`operator--`<br>`operator--(int)`|apply increment and decrement to `hedgehog_elemproxy`s<br><small>(public member functions)</small>|
 
-#### Getter
+#### Getters
 |Function|Description|
 |---|---|
 |`as`|gets the value as type `T`<br><small>(function template)</small>|
 
-#### Observer
+#### Modifiers
+|Function|Description|
+|---|---|
+|`rebind`|rebinds the registry instance<br><small>(public member function)</small>|
+
+#### Observers
 |Function|Description|
 |---|---|
 |`type`|gets the type<br><small>(public member function)</small>|
 |`is`|checks if the type is `T`<br><small>(function template)</small>|
 
-#### Assertion
+#### Assertions
 |Function|Description|
 |---|---|
 |`throw_if_not`|throws `std::runtime_error` if the type is not `T`<br><small>(function template)</small>|
@@ -32,4 +37,4 @@
 |Function|Description|
 |---|---|
 |`operator+`<br>`operator-`<br>`operator*`<br>`operator/`<br>`operator%`|perform arithmetic on two `hedgehog_elemproxy`s|
-|`operator<<`|serializes the value|
+|`operator<<`<br>`operator>>`|serialize and deserialize the value|
