@@ -21,7 +21,7 @@ long long hedgehog_test0() {
 		cont.push_back(i % 2 == 0);
 		cont.push_back(std::to_string(i));
 	}
-	size_t cont_size = cont.size();
+	const size_t cont_size = cont.size();
 	std::string fmt = "[ ]";
 	stopwatch watch;
 	watch.start();
@@ -38,7 +38,7 @@ long long hedgehog_test1() {
 		cont.push_back(0.0f);
 		cont.push_back(0.0);
 	}
-	size_t cont_size = cont.size();
+	const size_t cont_size = cont.size();
 	stopwatch watch;
 	watch.start();
 	for (int i = 0; i < cont_size; ++i) {
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 			{ "a", "arithing" },
 			{ "f", "exfmtio" },
 			{ "g", "genev" }
-		});
+			});
 		std::cout << std::boolalpha;
 		std::cin >> std::boolalpha;
 		std::ifstream file("splashes.txt");
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
 			splashes.push_back("Unable to load splashes!");
 		}
 		randgen_int<size_t> rand(0, splashes.size() - 1);
-		size_t splash_index = rand.next();
+		const size_t splash_index = rand.next();
 		fmtout("[]\n", {
 			artwork,
 			foreground_color(255, 255, 0),
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 			cursor_right(65 - std::strlen(VERSION) - splashes[splash_index].length()),
 			splashes[splash_index],
 			rendl_fast
-		});
+			});
 		size_t cnt = 0;
 		fmtout("=== START OF PROGRAM ===\n");
 		if (parser.get_flag("escseq") || parser.get_flag("all")) {
@@ -107,11 +107,11 @@ int main(int argc, char* argv[]) {
 				gen_style(escseq_style::italic | escseq_style::underline),
 				foreground_color(0, 0, 255),
 				background_color(255, 255, 255)
-			});
+				});
 			fmtout("[Hyperlink (clicked)]", {
 				foreground_color(128, 0, 255),
 				rendl_fast
-			});
+				});
 			fmtout("{0}int {1}var {2}= {3}42{2}; {4}// This is the palette of One Dark Pro{5}", {
 				foreground_color(198, 120, 221),
 				foreground_color(224, 108, 117),
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
 				foreground_color(209, 154, 102),
 				foreground_color(127, 132, 142),
 				rendl_fast
-			});
+				});
 			fmtout("=== END OF TEST - ESCSEQ ===\n");
 		}
 		if (parser.get_flag("hedgehog") || parser.get_flag("all")) {
@@ -137,9 +137,10 @@ int main(int argc, char* argv[]) {
 			double deg;
 			fmtout("Enter an angle (in degrees) please: ");
 			fmtin(deg);
-			double rad = dtor(deg);
-			double cos_ = ::launch::cos(rad);
-			double sin_ = ::launch::sin(rad);
+			const double
+				rad = dtor(deg),
+				cos_ = ::launch::cos(rad),
+				sin_ = ::launch::sin(rad);
 			fmtout(
 				"If O is at (0, 0), A is at (1, 0), both OA and OP are 1, "
 				"and angle AOP is {} degrees, then P is at ({}, {}).\n"
@@ -169,7 +170,7 @@ int main(int argc, char* argv[]) {
 			arrat lhs, rhs, res;
 			char op;
 			fmtout("Enter a math expression please (e.g. 1 + 2, -1/2 * 3/4): ");
-			fmtin(pack(lhs, op, rhs));
+			fmtin("{} {} {}", pack(lhs, op, rhs));
 			lhs = cont[0].as<arrat>();
 			op = cont[1].as<char>();
 			rhs = cont[2].as<arrat>();
@@ -210,7 +211,7 @@ int main(int argc, char* argv[]) {
 			fmtin(cnt);
 			fmtout("----------------------------------------\nPlese enter {} element(s):\n", { cnt });
 			fmtin_deduce_auto(cont, cnt);
-			size_t cont_size = cont.size();
+			const size_t cont_size = cont.size();
 			for (size_t i = 0; i < cont_size; ++i) {
 				fmt = fmt + "{" + std::to_string(i) + "}: {" + std::to_string(i + cont_size) + "}\n";
 				cont.push_back(cont[i].type().name());

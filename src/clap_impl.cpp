@@ -10,7 +10,7 @@ namespace launch {
 				next_opt = argv[i + 1];
 			}
 			if (opt.starts_with("--")) {
-				size_t eq_pos = opt.find("=");
+				const size_t eq_pos = opt.find("=");
 				std::string raw = opt.substr(2, eq_pos - 2);
 				if (eq_pos != std::string::npos) {
 					opts[raw] = opt.substr(eq_pos + 1);
@@ -26,7 +26,7 @@ namespace launch {
 			else if (opt.starts_with("-")) {
 				std::string alias = opt.substr(1);
 				std::string temp;
-				for (char ch : alias) {
+				for (const char ch : alias) {
 					std::string raw;
 					std::unordered_map<std::string, std::string>::iterator raw_it = aliases.find(std::string(1, ch));
 					if (raw_it != aliases.end()) {

@@ -1,5 +1,5 @@
 > [!NOTE]
-> This README was written in assistance of MPE (a Visual Studio Code extension).  
+> This README was written in assistance of MPE (Markdown Preview Enhanced, a Visual Studio Code extension).  
 > Some of the features used may not work on GitHub.  
 > For the best reading experience, please use MPE.  
 > Thank you for your understanding.
@@ -57,7 +57,7 @@ For details, please refer to `CMakeLists.txt`.
 ### Part II-2: Using
 
 Simply write `#include "include/launch.h"`.  
-If you need more precise module control, please `#define` corresponding macros in `include/launch_config.h`.  
+If you need to control which modules will be included, please `#define` corresponding macros in `include/launch_config.h`.  
 The macros look like this:
 ```cpp
 LAUNCH_NO_<MODULENAME> // disables a specific module
@@ -83,11 +83,11 @@ watch.resume();
 /* back to work */
 std::this_thread::sleep_for(1s);
 watch.stop();
-std::cout << "Time elapsed: " << watch.get_dur().milliseconds() << "ms\n";
+std::cout << "Time elapsed: " << watch.get_dur().milliseconds() << " ms\n";
 ```
 - Expected output:
 ```
-Time elapsed: 2000ms
+Time elapsed: 2000 ms
 ```
 
 ### \<clap\>
@@ -152,20 +152,20 @@ std::cout << launch::gen_style(launch::escseq_style::italic | launch::escseq_sty
 launch::fmtout("int: {}, double: {}, bool: {}, string: {}, char: {}\n", { 42, 3.14, true, "Hello World!", 'A' });
 int a;
 double b;
-launch::fmtin(launch::pack(a, b));
+launch::fmtin("a: {}, b: {}\n", launch::pack(a, b));
 launch::fmtout("You entered: {} & {}.\n", { a, b });
 ```
 - Expected output:
 ```
 int: 42, double: 3.14, bool: true, string: Hello World!, char: A
-<input...>
-You entered: <input0> & <input1>.
+a: <a>, b: <b>
+You entered: <a> & <b>.
 ```
 
 ### \<goodmath\>, \<goodrand\> & \<goodstr\>
 
 - What do the names mean?  
-**-** These names distinguish LAUNCH modules from STL.
+**-** These names distinguish LAUNCH modules from STL ones.
 - What can they do?
 ```cpp
 std::string hint = "Sine value of ";

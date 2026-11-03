@@ -43,10 +43,11 @@ namespace std {
 	template<>
 	struct hash<launch::hedgehog_opersign> {
 		size_t operator()(const launch::hedgehog_opersign& sign) const {
-			size_t h1 = hash<type_index>()(sign.lhs);
-			size_t h2 = hash<std::underlying_type_t<launch::hedgehog_opertype>>()
-				(static_cast<std::underlying_type_t<launch::hedgehog_opertype>>(sign.oper));
-			size_t h3 = hash<type_index>()(sign.rhs);
+			const size_t
+				h1 = hash<type_index>()(sign.lhs),
+				h2 = hash<std::underlying_type_t<launch::hedgehog_opertype>>()
+				(static_cast<std::underlying_type_t<launch::hedgehog_opertype>>(sign.oper)),
+				h3 = hash<type_index>()(sign.rhs);
 			return h1 ^ (h2 << 1) ^ (h3 << 2);
 		}
 	};

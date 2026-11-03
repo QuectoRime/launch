@@ -87,7 +87,7 @@ namespace leisure {
 	}
 
 	genev operator^(const genev& a, long long b) {
-		double new_value = pow(a.value(), b);
+		const double new_value = pow(a.value(), b);
 		std::array<long long, genev::dim_count> new_unit = a.unit();
 		for (long long& dim : new_unit) {
 			dim *= b;
@@ -117,7 +117,7 @@ namespace leisure {
 	}
 
 	std::ostream& operator<<(std::ostream& out, const genev& val) {
-		double converted = val.value_ * std::pow(1000, -val.unit_[1]);
+		const double converted = val.value_ * std::pow(1000, -val.unit_[1]);
 		out << converted;
 		bool dimensionless = true;
 		for (const long long& dim : val.unit_) {
@@ -138,7 +138,7 @@ namespace leisure {
 			if (printed++) {
 				out << (val.unit_[i] > 0 ? "*" : "/");
 				out << units_str_si[i];
-				long long abs_exp = std::abs(val.unit_[i]);
+				const long long abs_exp = std::abs(val.unit_[i]);
 				if (abs_exp != 1) {
 					out << "^" << std::abs(val.unit_[i]);
 				}
@@ -176,8 +176,8 @@ namespace leisure {
 			std::function<genev(const genev&)> prefix = [](const genev& val) { return val; };
 			genev base_unit;
 			long long exp = 1;
-			size_t pow_pos = split_unit.find('^');
-			char first_char = split_unit[0];
+			const size_t pow_pos = split_unit.find('^');
+			const char first_char = split_unit[0];
 			std::string base_unit_str;
 			if (first_char == '*' || first_char == '/') {
 				base_unit_str = split_unit.substr(1, pow_pos - 1);

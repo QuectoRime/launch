@@ -43,7 +43,7 @@ namespace launch {
 	}
 
 	std::ostream& operator<<(std::ostream& out, const style_manip& manip) {
-		escseq_style manip_flags = manip.flags;
+		const escseq_style manip_flags = manip.flags;
 		if (static_cast<bool>(manip_flags & escseq_style::bold)) {
 			out << bold;
 		}

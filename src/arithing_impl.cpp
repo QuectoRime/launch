@@ -176,8 +176,8 @@ namespace leisure {
 		if (a.nan || b.nan) {
 			return std::partial_ordering::unordered;
 		}
-		int a_lvl = (a.sign ? 1 : -1) * (a.inf ? 2 : 1);
-		int b_lvl = (b.sign ? 1 : -1) * (b.inf ? 2 : 1);
+		const int a_lvl = (a.sign ? 1 : -1) * (a.inf ? 2 : 1);
+		const int b_lvl = (b.sign ? 1 : -1) * (b.inf ? 2 : 1);
 		if (a_lvl != b_lvl) {
 			return a_lvl <=> b_lvl;
 		}
@@ -268,7 +268,7 @@ namespace leisure {
 			den.value = 1;
 			return;
 		}
-		unsigned long long nd_gcd = std::gcd(num.value, den.value);
+		const unsigned long long nd_gcd = std::gcd(num.value, den.value);
 		num.value /= nd_gcd;
 		den.value /= nd_gcd;
 	}
@@ -282,7 +282,7 @@ namespace leisure {
 			num += other.num;
 		}
 		else {
-			unsigned long long den_lcm = std::lcm(den.value, other.den.value);
+			const unsigned long long den_lcm = std::lcm(den.value, other.den.value);
 			num = num * (den_lcm / den.value) + other.num * (den_lcm / other.den.value);
 			den.value = den_lcm;
 		}
@@ -303,7 +303,7 @@ namespace leisure {
 	}
 
 	arrat& arrat::operator/=(const arrat& other) {
-		arrat temp(other.den, other.num);
+		const arrat temp(other.den, other.num);
 		*this *= temp;
 		return *this;
 	}
@@ -313,7 +313,7 @@ namespace leisure {
 			num %= other.num;
 		}
 		else {
-			unsigned long long den_lcm = std::lcm(den.value, other.den.value);
+			const unsigned long long den_lcm = std::lcm(den.value, other.den.value);
 			num = num * (den_lcm / den.value) % other.num * (den_lcm / other.den.value);
 			den.value = den_lcm;
 		}
@@ -360,7 +360,7 @@ namespace leisure {
 	}
 
 	std::partial_ordering operator<=>(const arrat& a, const arrat& b) {
-		unsigned long long
+		const unsigned long long
 			a_den_value = abs(a.den),
 			b_den_value = abs(b.den),
 			den_lcm = std::lcm(a_den_value, b_den_value);
@@ -382,7 +382,7 @@ namespace leisure {
 	std::istream& operator>>(std::istream& in, arrat& val) {
 		std::string s_value;
 		in >> s_value;
-		unsigned long long pos = s_value.find('/');
+		const unsigned long long pos = s_value.find('/');
 		std::stringstream ss_num(s_value.substr(0, pos));
 		arint temp_num;
 		ss_num >> temp_num;
@@ -407,11 +407,11 @@ namespace leisure {
 		if (nan(val.num)) {
 			return "NaN";
 		}
-		bool val_num_inf = inf(val.num);
+		const bool val_num_inf = inf(val.num);
 		if (inf(val.den)) {
 			return val_num_inf ? "NaN" : "0";
 		}
-		unsigned long long
+		const unsigned long long
 			val_num_value = abs(val.num),
 			val_den_value = abs(val.den);
 		bool val_num_sign = sign(val.num);
@@ -442,7 +442,7 @@ namespace leisure {
 			num2 = rem * 10;
 			std::vector<unsigned long long>::const_iterator it = std::find(rem_before.begin(), rem_before.end(), rem);
 			if (it != rem_before.end()) {
-				size_t pos = !val_num_sign + res_str.length() + 1 + (it - rem_before.begin());
+				const size_t pos = !val_num_sign + res_str.length() + 1 + (it - rem_before.begin());
 				res = res.substr(0, pos) + "(" + res.substr(pos) + ")";
 				break;
 			}

@@ -507,7 +507,12 @@ N/A | c26c7cb | Initial commit
 - Tests, CMake, version history, documentation
 [!] Note that minor versions 1.17.x are not guaranteed to be backwards compatible.
 ===
-1.17.1 | (HEAD!) Renamed arreal to arrat; reformatted HISTORY.txt
+1.17.1 | 40aa7ad | Renamed arreal to arrat; reformatted HISTORY.txt
+[v] Everything normal
+[+] Available assets...
+- Tests, CMake, version history, documentation
+===
+1.17.2 | (HEAD!) | Partially refactored <fmtio> (part 2); const correctness
 [v] Everything normal
 [+] Available assets...
 - Tests, CMake, version history, documentation

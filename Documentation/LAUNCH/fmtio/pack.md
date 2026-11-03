@@ -15,3 +15,6 @@ A `hedgehog` with given references as `std::reference_wrapper`s.
 
 ### Complexity
 Linear.
+
+### Note
+`pack` is not intended to (and rarely could) be used with `fmtout`.

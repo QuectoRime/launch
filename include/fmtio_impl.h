@@ -18,6 +18,11 @@ namespace launch {
 #if !defined(LAUNCH_NO_HEDGEHOG)
 	void fmtout(const std::string& fmt, const hedgehog& cont = {}, std::ostream& out = std::cout);
 
+	template <writable T>
+	void fmtout(const T& x, std::ostream& out = std::cout) {
+		out << x;
+	}
+
 	template <readable... Ts>
 	hedgehog pack(Ts&... args) {
 		hedgehog cont;
@@ -25,7 +30,7 @@ namespace launch {
 		return cont;
 	}
 
-	void fmtin(const hedgehog& cont, std::istream& in = std::cin);
+	void fmtin(const std::string& fmt, const hedgehog& cont, std::istream& in = std::cin);
 
 	template <readable T>
 	void fmtin(T& x, std::istream& in = std::cin) {
