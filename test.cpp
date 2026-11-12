@@ -1,8 +1,6 @@
 #include <fstream>
 
 #include "include/launch.h"
-using namespace launch;
-using namespace leisure;
 
 const char* artwork =
 R"( ___       ________  ___  ___  ________   ________  ___  ___     )""\n"
@@ -14,7 +12,7 @@ R"(   \ \_______\ \__\ \__\ \_______\ \__\\ \__\ \_______\ \__\ \__\)""\n"
 R"(    \|_______|\|__|\|__|\|_______|\|__| \|__|\|_______|\|__|\|__|)";
 
 long long hedgehog_test0() {
-	hedgehog cont;
+	l::hedgehog cont;
 	for (int i = 0; i < 256; ++i) {
 		cont.push_back(i);
 		cont.push_back(i / 10.0);
@@ -23,15 +21,15 @@ long long hedgehog_test0() {
 	}
 	const size_t cont_size = cont.size();
 	std::string fmt = "[ ]";
-	stopwatch watch;
+	l::stopwatch watch;
 	watch.start();
-	fmtout(fmt, cont, nullout);
+	l::fmtout(fmt, cont, l::nullout);
 	watch.stop();
 	return watch.get_dur().microseconds();
 }
 
 long long hedgehog_test1() {
-	hedgehog cont;
+	l::hedgehog cont;
 	for (int i = 0; i < 256; ++i) {
 		cont.push_back(0);
 		cont.push_back(0ll);
@@ -39,7 +37,7 @@ long long hedgehog_test1() {
 		cont.push_back(0.0);
 	}
 	const size_t cont_size = cont.size();
-	stopwatch watch;
+	l::stopwatch watch;
 	watch.start();
 	for (int i = 0; i < cont_size; ++i) {
 		cont[i] += i / 4;
@@ -49,22 +47,22 @@ long long hedgehog_test1() {
 }
 
 void hedgehog_test2() {
-	hedgehog cont = { 42, 3.14, std::string("Hello World!") };
-	fmtout("int: {}, double: {}, std::string: {}\n", cont);
-	for (hedgehog_elemproxy& elem : cont) {
+	l::hedgehog cont = { 42, 3.14, std::string("Hello World!") };
+	l::fmtout("int: {}, double: {}, std::string: {}\n", cont);
+	for (l::hedgehog_elemproxy& elem : cont) {
 		try {
 			elem += 1;
 		}
 		catch (const std::runtime_error& e) {
-			fmtout("Oops: {} (Please don't worry, this is intentional.)\n", { e.what() });
+			l::fmtout("Oops: {} (Please don't worry, this is intentional.)\n", { e.what() });
 		}
 	}
-	fmtout("int: {}, double: {}, std::string: {}\n", cont);
+	l::fmtout("int: {}, double: {}, std::string: {}\n", cont);
 }
 
 int main(int argc, char* argv[]) {
 	try {
-		clap parser(argc, argv, {
+		l::clap parser(argc, argv, {
 			{ "e", "escseq" },
 			{ "h", "hedgehog" },
 			{ "m", "goodmath" },
@@ -87,93 +85,89 @@ int main(int argc, char* argv[]) {
 		if (!splashes.size()) {
 			splashes.push_back("Unable to load splashes!");
 		}
-		randgen_int<size_t> rand(0, splashes.size() - 1);
+		l::randgen_int<size_t> rand(0, splashes.size() - 1);
 		const size_t splash_index = rand.next();
-		fmtout("[]\n", {
+		l::fmtout("[]\n", {
 			artwork,
-			foreground_color(255, 255, 0),
-			cursor_left(65),
-			VERSION,
-			cursor_right(65 - std::strlen(VERSION) - splashes[splash_index].length()),
+			l::foreground_color(255, 255, 0),
+			l::cursor_left(65),
+			l::VERSION,
+			l::cursor_right(65 - std::strlen(l::VERSION) - splashes[splash_index].length()),
 			splashes[splash_index],
-			rendl_fast
-			});
+			l::rendl_fast
+		});
 		size_t cnt = 0;
-		fmtout("=== START OF PROGRAM ===\n");
+		l::fmtout("=== START OF PROGRAM ===\n");
 		if (parser.get_flag("escseq") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - ESCSEQ ===\n");
-			fmtout("[]Hyperlink\n", {
-				gen_style(escseq_style::italic | escseq_style::underline),
-				foreground_color(0, 0, 255),
-				background_color(255, 255, 255)
-				});
-			fmtout("[Hyperlink (clicked)]", {
-				foreground_color(128, 0, 255),
-				rendl_fast
-				});
-			fmtout("{0}int {1}var {2}= {3}42{2}; {4}// This is the palette of One Dark Pro{5}", {
-				foreground_color(198, 120, 221),
-				foreground_color(224, 108, 117),
-				foreground_color(97, 175, 239),
-				foreground_color(209, 154, 102),
-				foreground_color(127, 132, 142),
-				rendl_fast
-				});
-			fmtout("=== END OF TEST - ESCSEQ ===\n");
+			l::fmtout("=== START OF TEST - ESCSEQ ===\n");
+			l::fmtout("[]Hyperlink\n", {
+				l::gen_style(l::escseq_style::italic | l::escseq_style::underline),
+				l::foreground_color(0, 0, 255),
+				l::background_color(255, 255, 255)
+			});
+			l::fmtout("[Hyperlink (clicked)]", {
+				l::foreground_color(128, 0, 255),
+				l::rendl_fast
+			});
+			l::fmtout("{0}int {1}var {2}= {3}42{2}; {4}// This is the palette of One Dark Pro{5}", {
+				l::foreground_color(198, 120, 221),
+				l::foreground_color(224, 108, 117),
+				l::foreground_color(97, 175, 239),
+				l::foreground_color(209, 154, 102),
+				l::foreground_color(127, 132, 142),
+				l::rendl_fast
+			});
+			l::fmtout("=== END OF TEST - ESCSEQ ===\n");
 		}
 		if (parser.get_flag("hedgehog") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - HEDGEHOG ===\n");
-			fmtout("Test 1, printing 1024 elements: {} us\n", { hedgehog_test0() });
-			fmtout("Test 2, calculating 1024 times: {} us\n", { hedgehog_test1() });
-			fmtout("Test 3:\n");
+			l::fmtout("=== START OF TEST - HEDGEHOG ===\n");
+			l::fmtout("Test 1, printing 1024 elements: {} us\n", { hedgehog_test0() });
+			l::fmtout("Test 2, calculating 1024 times: {} us\n", { hedgehog_test1() });
+			l::fmtout("Test 3:\n");
 			hedgehog_test2();
-			fmtout("=== END OF TEST - HEDGEHOG ===\n");
+			l::fmtout("=== END OF TEST - HEDGEHOG ===\n");
 		}
 		if (parser.get_flag("goodmath") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - GOODMATH ===\n");
+			l::fmtout("=== START OF TEST - GOODMATH ===\n");
 			double deg;
-			fmtout("Enter an angle (in degrees) please: ");
-			fmtin(deg);
+			l::fmtout("Enter an angle (in degrees) please: ");
+			l::fmtin(deg);
 			const double
-				rad = dtor(deg),
-				cos_ = ::launch::cos(rad),
-				sin_ = ::launch::sin(rad);
-			fmtout(
+				rad = l::dtor(deg),
+				cos_ = l::cos(rad),
+				sin_ = l::sin(rad);
+			l::fmtout(
 				"If O is at (0, 0), A is at (1, 0), both OA and OP are 1, "
 				"and angle AOP is {} degrees, then P is at ({}, {}).\n"
 				"By the way, this should be 1: {}.\n",
-				{ deg, cos_, sin_, ::launch::pow(cos_, 2) + ::launch::pow(sin_, 2) }
+				{ deg, cos_, sin_, l::pow(cos_, 2) + l::pow(sin_, 2) }
 			);
-			fmtout("=== END OF TEST - GOODMATH ===\n");
+			l::fmtout("=== END OF TEST - GOODMATH ===\n");
 		}
 		if (parser.get_flag("goodstr") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - GOODSTR ===\n");
+			l::fmtout("=== START OF TEST - GOODSTR ===\n");
 			std::string str0, str1, str2;
-			fmtout("Enter three strings:\n");
-			fmtin_line(str0);
-			fmtin_line(str1);
-			fmtin_line(str2);
-			fmtout(
+			l::fmtout("Enter three strings:\n");
+			l::fmtin_line(str0);
+			l::fmtin_line(str1);
+			l::fmtin_line(str2);
+			l::fmtout(
 				"After replacing \"{}\"s in \"{}\" with \"{}\": {}\n",
-				{ str1, str0, str2, replace(str0, str1, str2) }
+				{ str1, str0, str2, l::replace(str0, str1, str2) }
 			);
-			fmtout("=== END OF TEST - GOODSTR ===\n");
+			l::fmtout("=== END OF TEST - GOODSTR ===\n");
 		}
 		if (parser.get_flag("arithing") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - ARITHING ===\n");
-			hedgehog cont;
-			arrat lhs, rhs, res;
+			l::fmtout("=== START OF TEST - ARITHING ===\n");
+			l::arrat lhs, rhs, res;
 			char op;
-			fmtout("Enter a math expression please (e.g. 1 + 2, -1/2 * 3/4): ");
-			fmtin("{} {} {}", pack(lhs, op, rhs));
-			lhs = cont[0].as<arrat>();
-			op = cont[1].as<char>();
-			rhs = cont[2].as<arrat>();
+			l::fmtout("Enter a math expression please (e.g. 1 + 2, -1/2 * 3/4): ");
+			l::fmtin("[ ]", l::pack(lhs, op, rhs));
 			switch (op) {
 			case '+':
 				res = lhs + rhs;
@@ -191,48 +185,48 @@ int main(int argc, char* argv[]) {
 				res = lhs % rhs;
 				break;
 			default:
-				res = arint(0, arint_specval::nan);
+				res = l::arint(0, l::arint_specval::nan);
 			}
-			if (denominator(res) == 1) {
-				fmtout("{} {} {} = {}\n", { lhs, op, rhs, res });
+			if (l::denominator(res) == 1) {
+				l::fmtout("{} {} {} = {}\n", { lhs, op, rhs, res });
 			}
 			else {
-				fmtout("{} {} {} = {} = {}\n", { lhs, op, rhs, res, to_decimal(res) });
+				l::fmtout("{} {} {} = {} = {}\n", { lhs, op, rhs, res, l::to_decimal(res) });
 			}
-			fmtout("=== END OF TEST - ARITHING ===\n");
+			l::fmtout("=== END OF TEST - ARITHING ===\n");
 		}
 		if (parser.get_flag("exfmtio") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - EXFMTIO ===\n");
+			l::fmtout("=== START OF TEST - EXFMTIO ===\n");
 			size_t cnt;
-			hedgehog cont;
+			l::hedgehog cont;
 			std::string fmt = "----------------------------------------\nYou entered:\n";
-			fmtout("How many elements you're about to enter? ");
-			fmtin(cnt);
-			fmtout("----------------------------------------\nPlese enter {} element(s):\n", { cnt });
-			fmtin_deduce_auto(cont, cnt);
+			l::fmtout("How many elements you're about to enter? ");
+			l::fmtin(cnt);
+			l::fmtout("----------------------------------------\nPlese enter {} element(s):\n", { cnt });
+			l::fmtin_deduce_auto(cont, cnt);
 			const size_t cont_size = cont.size();
 			for (size_t i = 0; i < cont_size; ++i) {
 				fmt = fmt + "{" + std::to_string(i) + "}: {" + std::to_string(i + cont_size) + "}\n";
 				cont.push_back(cont[i].type().name());
 			}
-			fmtout(fmt, cont);
-			fmtout("=== END OF TEST - EXFMTIO ===\n");
+			l::fmtout(fmt, cont);
+			l::fmtout("=== END OF TEST - EXFMTIO ===\n");
 		}
 		if (parser.get_flag("genev") || parser.get_flag("all")) {
 			++cnt;
-			fmtout("=== START OF TEST - GENEV ===\n");
-			genev mass, accel;
-			fmtout("Mass: ");
-			fmtin(mass);
-			fmtout("Acceleration: ");
-			fmtin(accel);
-			fmtout("F = ma = {} * {} = {}\n", { mass, accel, mass * accel });
-			fmtout("=== END OF TEST - GENEV ===\n");
+			l::fmtout("=== START OF TEST - GENEV ===\n");
+			l::genev mass, accel;
+			l::fmtout("Mass: ");
+			l::fmtin(mass);
+			l::fmtout("Acceleration: ");
+			l::fmtin(accel);
+			l::fmtout("F = ma = {} * {} = {}\n", { mass, accel, mass * accel });
+			l::fmtout("=== END OF TEST - GENEV ===\n");
 		}
-		fmtout("=== END OF PROGRAM - {} TEST(S) EXECUTED ===\n", { cnt });
+		l::fmtout("=== END OF PROGRAM - {} TEST(S) EXECUTED ===\n", { cnt });
 		if (!cnt) {
-			fmtout(
+			l::fmtout(
 				"\nOh, it seems like that none of our wonderful tests have been executed!\n"
 				"Please consider running this program with one or more options.\n"
 				"The available options are:\n"

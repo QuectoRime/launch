@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(LAUNCH VERSION 1.17.2 LANGUAGES CXX)
+project(LAUNCH VERSION 1.17.3 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,7 +16,6 @@ target_sources(launch PRIVATE
   src/exfmtio_impl.cpp
   src/fmtio_impl.cpp
   src/genev_impl.cpp
-  src/goodmath_impl.cpp
   src/goodstr_impl.cpp
   src/hedgehog_impl.cpp
 )

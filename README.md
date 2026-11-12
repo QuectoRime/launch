@@ -1,7 +1,6 @@
 > [!NOTE]
-> This README was written in assistance of MPE (Markdown Preview Enhanced, a Visual Studio Code extension).  
-> Some of the features used may not work on GitHub.  
-> For the best reading experience, please use MPE.  
+> Some of the features used in this README might not work on GitHub.  
+> For the best reading experience, please consider viewing it in Visual Studio Code with suitable extensions.  
 > Thank you for your understanding.
 
 <div style="position: absolute;">
@@ -46,6 +45,8 @@
 | Where does the name *LAUNCH* come from? | It's a backronym - **L**ibrary of **A**bundant **U**tilities for **N**ew **C**reative **H**acks! |
 | How many modules are there? | Currently, there are 8 (LAUNCH itself) + 3 (LEISURE features). |
 | Well, what's *LEISURE*, then? | It's still a backronym - **L**ibrary of **E**xperimental **I**deas for **SURE**! |
+| Hmm, I wonder what we're doing here. | Okay, it's called Socratic questioning. |
+| Fine! | Then let's move on! |
 
 <h2 id="part2">Part II: Building / Using</h2>
 
@@ -60,8 +61,17 @@ Simply write `#include "include/launch.h"`.
 If you need to control which modules will be included, please `#define` corresponding macros in `include/launch_config.h`.  
 The macros look like this:
 ```cpp
-LAUNCH_NO_<MODULENAME> // disables a specific module
-LAUNCH_EXPERIMENTAL // enables LEISURE features
+// disabling a specific module:
+#define LAUNCH_NO_<MODULENAME>
+// enabling LEISURE features:
+#define LAUNCH_EXPERIMENTAL
+// simplifying namespaces:
+#define LAUNCH_SIMPLIFY_NAMESPACE
+```
+Code snippets in this README work well with the macros below:
+```cpp
+#define LAUNCH_EXPERIMENTAL
+#define LAUNCH_SIMPLIFY_NAMESPACE
 ```
 
 <h2 id="part3">Part III: The Modules</h2>
@@ -72,7 +82,7 @@ LAUNCH_EXPERIMENTAL // enables LEISURE features
 **-** \<chro**no**\> versus \<chro**yes**\>
 - What can \<chroyes\> do?
 ```cpp
-launch::stopwatch watch;
+l::stopwatch watch;
 watch.start();
 /* do something */
 std::this_thread::sleep_for(1s);
@@ -97,7 +107,7 @@ Time elapsed: 2000 ms
 - What can \<clap\> do?
 ```cpp
 int main(int argc, char* argv[]) {
-    launch::clap parser(argc, argv, {{"o", "option"}, {"f", "flag"}});
+    l::clap parser(argc, argv, {{"o", "option"}, {"f", "flag"}});
     // the third parameter (aliases) maps short options to corresponding long options
     // aliases is an empty std::unordered_map by default
     std::optional<std::string> option = parser.get_opt("option");
@@ -133,13 +143,13 @@ true
 **-** ANSI **Esc**ape **Seq**uences (ANSI Escape Code)
 - What can \<escseq\> do?
 ```cpp
-std::cout << launch::gen_style(launch::escseq_style::italic | launch::escseq_style::underline)
-          << launch::foreground_color(0, 0, 255)
-          << launch::background_color(255, 255, 255)
+std::cout << l::gen_style(l::escseq_style::italic | l::escseq_style::underline)
+          << l::foreground_color(0, 0, 255)
+          << l::background_color(255, 255, 255)
           << "Hyperlink"
-          << launch::rendl_fast;
+          << l::rendl_fast;
 ```
-- Expected output: <p style="font-style: italic; text-decoration: underline; color: #0000ff; background-color: #ffffff;">Hyperlink</p>
+- Expected output: <p style="font-style: italic; text-decoration: underline; color: #00f; background-color: #fff;">Hyperlink</p>
 
 ### \<fmtio\> & \<hedgehog\>
 
@@ -149,11 +159,11 @@ std::cout << launch::gen_style(launch::escseq_style::italic | launch::escseq_sty
 **-** You see, hedgehogs' spines don't care what they're carrying - that's what `hedgehog` does!
 - What can they do?
 ```cpp
-launch::fmtout("int: {}, double: {}, bool: {}, string: {}, char: {}\n", { 42, 3.14, true, "Hello World!", 'A' });
+l::fmtout("int: {}, double: {}, bool: {}, string: {}, char: {}\n", { 42, 3.14, true, "Hello World!", 'A' });
 int a;
 double b;
-launch::fmtin("a: {}, b: {}\n", launch::pack(a, b));
-launch::fmtout("You entered: {} & {}.\n", { a, b });
+l::fmtin("a: {}, b: {}\n", l::pack(a, b));
+l::fmtout("You entered: {} & {}.\n", { a, b });
 ```
 - Expected output:
 ```
@@ -169,11 +179,11 @@ You entered: <a> & <b>.
 - What can they do?
 ```cpp
 std::string hint = "Sine value of ";
-launch::randgen_real rand(0.0, 360.0);
+l::randgen_real rand(0.0, 360.0);
 double deg = rand.next();
-std::cout << hint << deg << "deg: " << launch::sin(launch::dtor(deg)) << "\n";
-std::cout << launch::replace(hint, "Sine", "Cosine");
-std::cout << hint << deg << "deg: " << launch::cos(launch::dtor(deg)) << "\n";
+std::cout << hint << deg << "deg: " << l::sin(l::dtor(deg)) << "\n";
+std::cout << l::replace(hint, "Sine", "Cosine");
+std::cout << hint << deg << "deg: " << l::cos(l::dtor(deg)) << "\n";
 ```
 - Expected output:
 ```
@@ -188,27 +198,27 @@ Cosine value of <random>deg: <cos(random)>
 - What can \<arithing\> do?
 ```cpp
 std::cout <<
-    "Very big: " <<
-    leisure::arint(std::numeric_limits<unsigned long long>::max()) <<
+    "Very positive: " <<
+    l::arint(std::numeric_limits<unsigned long long>::max()) <<
     "\n";
 std::cout <<
-    "Very small (hey, it's way too small): " <<
-    leisure::arint(std::numeric_limits<unsigned long long>::max(), leisure::arint_specval::neg) <<
+    "Very negative (hey, it's way too negative): " <<
+    l::arint(std::numeric_limits<unsigned long long>::max(), l::arint_specval::neg) <<
     "\n";
 std::cout <<
     "Wait, what?: " <<
-    leisure::arint(0, leisure::arint_specval::inf) <<
+    l::arint(0, l::arint_specval::inf) <<
     " " <<
-    leisure::arint(0, leisure::arint_specval::inf | leisure::arint_specval::neg) <<
+    l::arint(0, l::arint_specval::inf | l::arint_specval::neg) <<
     " " <<
-    leisure::arint(0, leisure::arint_specval::nan) <<
+    l::arint(0, l::arint_specval::nan) <<
     "\n";
-std::cout << "Ooh, rational: " << leisure::arrat(22, 7) << "\n";
+std::cout << "Ooh, rational: " << l::arrat(22, 7) << "\n";
 ```
 Expected output:
 ```
-Very big: 18446744073709551615
-Very small (hey, it's way too small): -18446744073709551615
+Very positive: 18446744073709551615
+Very negative (hey, it's way too negative): -18446744073709551615
 Wait, what?: inf -inf NaN
 Ooh, rational: 22/7
 ```
@@ -219,12 +229,12 @@ Ooh, rational: 22/7
 **-** **Ex**tended **F**or**m**a**t**ted **I**nput/**O**utput
 - What can \<exfmtio\> do?
 ```cpp
-leisure::nullout << "Hello World...? Anyone here?\n"; // nullout is a global nullstream instance
-launch::hedgehog hh;
-launch::fmtout("Enter anything: ");
-leisure::fmtin_deduce_auto(hh);
+l::nullout << "Hello World...? Anyone here?\n"; // nullout is a global nullstream instance
+l::hedgehog hh;
+l::fmtout("Enter anything: ");
+l::fmtin_deduce_auto(hh);
 hh.push_back(hh[0].type().name());
-launch::fmtout("Got {0} with type {1}\n", hh);
+l::fmtout("Got {0} with type {1}\n", hh);
 ```
 Expected output:
 ```
@@ -239,7 +249,7 @@ Got <something> with type <type name of something>
 **-** **Gen**erally **Ev**erything
 - What can \<genev\> do?
 ```cpp
-leisure::genev mass = 1 * kilo(gram), acceleration = 9.8 * meter / (second ^ 2);
+l::genev mass = 1 * kilo(gram), acceleration = 9.8 * meter / (second ^ 2);
 std::cout << "F = ma = " << mass << " * " << acceleration << " = " << mass * acceleration << "\n";
 ```
 Expected output:

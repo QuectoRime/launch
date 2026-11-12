@@ -239,15 +239,15 @@ namespace leisure {
 		return val.value;
 	}
 
-	unsigned long long sign(const arint& val) {
+	bool sign(const arint& val) {
 		return val.sign;
 	}
 
-	unsigned long long nan(const arint& val) {
+	bool isnan(const arint& val) {
 		return val.nan;
 	}
 
-	unsigned long long inf(const arint& val) {
+	bool isinf(const arint& val) {
 		return val.inf;
 	}
 
@@ -404,11 +404,11 @@ namespace leisure {
 	}
 
 	std::string to_decimal(const arrat& val) {
-		if (nan(val.num)) {
+		if (isnan(val.num)) {
 			return "NaN";
 		}
-		const bool val_num_inf = inf(val.num);
-		if (inf(val.den)) {
+		const bool val_num_inf = isinf(val.num);
+		if (isinf(val.den)) {
 			return val_num_inf ? "NaN" : "0";
 		}
 		const unsigned long long
@@ -419,7 +419,7 @@ namespace leisure {
 		if (!val_num_sign) {
 			res += "-";
 		}
-		if (inf(val.num)) {
+		if (isinf(val.num)) {
 			res += "inf";
 			return res;
 		}

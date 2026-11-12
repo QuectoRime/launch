@@ -512,7 +512,13 @@ N/A | c26c7cb | Initial commit
 [+] Available assets...
 - Tests, CMake, version history, documentation
 ===
-1.17.2 | (HEAD!) | Partially refactored <fmtio> (part 2); const correctness
+1.17.2 | d83d9f4 | Partially refactored <fmtio> (part 2); const correctness
+[o] Something's not doing well
+- Test program of <arithing> fails to assert
+[+] Available assets...
+- Tests, CMake, version history, documentation
+===
+1.17.3 | (HEAD!) | Refactored <goodmath>
 [v] Everything normal
 [+] Available assets...
 - Tests, CMake, version history, documentation

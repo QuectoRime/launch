@@ -3,7 +3,7 @@
 #include <cstddef>
 
 #define MACRO_MAJOR 17
-#define MACRO_MINOR 2
+#define MACRO_MINOR 3
 #define _STRINGIFY(num) #num
 #define STRINGIFY(num) _STRINGIFY(num)
 
@@ -54,4 +54,13 @@ namespace launch {
 
 #if defined(LAUNCH_EXPERIMENTAL)
 #include "leisure.h"
+#endif
+
+#if defined (LAUNCH_SIMPLIFY_NAMESPACE)
+namespace l {
+	using namespace launch;
+#if defined(LAUNCH_EXPERIMENTAL)
+	using namespace leisure;
+#endif
+}
 #endif

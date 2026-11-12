@@ -21,8 +21,18 @@ namespace leisure {
 	constexpr arint_specval operator|(arint_specval lhs, arint_specval rhs);
 	constexpr arint_specval operator&(arint_specval lhs, arint_specval rhs);
 
-	class arrat;
+	class arint;
 
+	class arrat;
+	
+	unsigned long long abs(const arint& val);
+
+	bool sign(const arint& val);
+
+	bool isnan(const arint& val);
+
+	bool isinf(const arint& val);
+	
 	class arint {
 	private:
 		unsigned long long value;
@@ -74,11 +84,11 @@ namespace leisure {
 
 		friend unsigned long long abs(const arint& val);
 
-		friend unsigned long long sign(const arint& val);
+		friend bool sign(const arint& val);
 
-		friend unsigned long long nan(const arint& val);
+		friend bool isnan(const arint& val);
 
-		friend unsigned long long inf(const arint& val);
+		friend bool isinf(const arint& val);
 	};
 
 	arint operator+(const arint& a, const arint& b);
@@ -92,6 +102,12 @@ namespace leisure {
 	arint operator^(const arint& a, const arint& b);
 
 	arint operator%(const arint& a, const arint& b);
+
+	arint numerator(const arrat& val);
+
+	arint denominator(const arrat& val);
+
+	std::string to_decimal(const arrat& val);
 
 	class arrat {
 	private:
